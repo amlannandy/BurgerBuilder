@@ -17,7 +17,8 @@ export default {
   },
   actions: {
     addAlert({ commit }, payload) {
-      commit('addAlert', payload.alert);
+      console.log(payload);
+      commit('addAlert', payload);
     },
   },
 };

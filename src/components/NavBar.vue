@@ -1,7 +1,7 @@
 
 <template>
   <v-card>
-    <v-tabs v-model="tab" background-color="deep-purple accent-4" centered dark icons-and-text>
+    <v-tabs background-color="deep-purple accent-4" centered dark icons-and-text>
       <v-tabs-slider></v-tabs-slider>
 
       <v-tab to="/">
@@ -9,27 +9,27 @@
         <v-icon>mdi-home</v-icon>
       </v-tab>
 
-      <v-tab to="/favorites">
+      <v-tab v-if="isAuthenticated" to="/favorites">
         Favorites
         <v-icon>mdi-heart</v-icon>
       </v-tab>
 
-      <v-tab to="/orders">
+      <v-tab v-if="isAuthenticated" to="/orders">
         Orders
         <v-icon>mdi-shopping</v-icon>
       </v-tab>
 
-      <v-tab to="/account">
+      <v-tab v-if="isAuthenticated" to="/account">
         Account
         <v-icon>mdi-account-circle</v-icon>
       </v-tab>
 
-      <v-tab to="/register">
+      <v-tab v-if="!isAuthenticated" to="/register">
         Register
         <v-icon>mdi-account-plus-outline</v-icon>
       </v-tab>
 
-      <v-tab to="/login">
+      <v-tab v-if="!isAuthenticated" to="/login">
         Login
         <v-icon>mdi-account</v-icon>
       </v-tab>
@@ -44,3 +44,13 @@
     </v-tabs-items>-->
   </v-card>
 </template>
+
+<script>
+export default {
+  computed: {
+    isAuthenticated() {
+      return this.$store.getters.getAuthStatus;
+    },
+  },
+};
+</script>

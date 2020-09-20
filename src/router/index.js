@@ -8,6 +8,11 @@ import Account from '../views/Account.vue';
 import Register from '../views/Register.vue';
 import Favorites from '../views/Favorites.vue';
 
+import Profile from '../components/account/Profile.vue';
+import AddProfile from '../components/account/AddProfile.vue';
+
+import store from '../store/index';
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -20,26 +25,64 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login,
+    beforeEnter: (to, from, next) => {
+      if (store.state.auth.isAuthenticated) {
+        next('/account');
+      } else {
+        next();
+      }
+    },
   },
   {
     path: '/orders',
     name: 'Orders',
     component: Orders,
+    beforeEnter: (to, from, next) => {
+      if (store.state.auth.isAuthenticated) {
+        next();
+      } else {
+        next('/login');
+      }
+    },
   },
   {
     path: '/account',
-    name: 'Account',
     component: Account,
+    beforeEnter: (to, from, next) => {
+      if (store.state.auth.isAuthenticated) {
+        next();
+      } else {
+        next('/login');
+      }
+    },
+    children: [
+      { path: '/', component: Profile, name: 'profile' },
+      { path: 'add-profile', component: AddProfile, name: 'add-profile' },
+    ],
   },
   {
     path: '/register',
     name: 'Register',
     component: Register,
+    beforeEnter: (to, from, next) => {
+      if (store.state.auth.isAuthenticated) {
+        next('/account');
+      } else {
+        next();
+      }
+    },
   },
   {
     path: '/favorites',
     name: 'Favorites',
     component: Favorites,
+    beforeEnter: (to, from, next) => {
+      if (store.state.auth.isAuthenticated) {
+        next();
+      } else {
+        next('/login');
+      }
+    },
   },
 ];
 
